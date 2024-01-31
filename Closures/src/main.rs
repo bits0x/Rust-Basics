@@ -6,6 +6,19 @@ fn main() {
     let simulated_random_number = 7;
 
     generate_workout(simulated_intensity, simulated_random_number);
+
+    //------------------------------------------
+
+    let x: Vec<i32> = vec![1, 2, 3];
+
+    let equal_to_x = move |z: Vec<i32>| z == x;
+
+    // println!("can't use x here: {:?}", x); // as move, moves the ownership
+
+    let y: Vec<i32> = vec![1, 2, 3];
+
+    assert!(equal_to_x(y));
+
 }
 
 struct Cacher<T> 

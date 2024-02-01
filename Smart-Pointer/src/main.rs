@@ -7,22 +7,29 @@
 */
 
 use std::ops::Deref;
+use std::rc::Rc;
 
+// enum List {
+//     Cons(i32, Box<List>),
+//     Nil
+// }
+
+// For reference counting smart pointer we will make enum like this
 enum List {
-    Cons(i32, Box<List>),
-    Nil
+    Cons(i32, Rc<List>),
+    Nil,
 }
 
 use List::{Cons, Nil};
 
 fn main() {
-    let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
+    // let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
 
-    let x = 5;
-    let y = MyBox::new(x);
+    // let x = 5;
+    // let y = MyBox::new(x);
 
-    assert_eq!(x, 5);
-    assert_eq!(*y, 5);
+    // assert_eq!(x, 5);
+    // assert_eq!(*y, 5);
 
     // implicit deref coercions
     let str = String::from("Rust");
@@ -41,6 +48,17 @@ fn main() {
     */
     drop(c);
     let d = CustomSmartPointer {data: String::from("dropped first")};
+
+    //----------------------------------------
+    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    println!("count after creating a = {}", Rc::strong_count(&a));
+    let b = Cons(3, Rc::clone(&a));
+    println!("count after creating b = {}", Rc::strong_count(&a));
+    {
+        let c = Cons(4, Rc::clone(&a));
+        println!("count after creating c = {}", Rc::strong_count(&a));
+    }
+    println!("count after c goes out of scope = {}", Rc::strong_count(&a));
 
 }
 

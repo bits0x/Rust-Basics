@@ -693,6 +693,7 @@ version = "0.1.0"
 dependencies = [
  "reqwest",
  "serde 1.0.196",
+ "serde_json",
  "tokio",
 ]
 

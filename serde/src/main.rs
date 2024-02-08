@@ -38,6 +38,20 @@ async fn main() -> Result<(), reqwest::Error> {
         .await?;
 
     println!("{:#?}", new_todo);
-    
+
+    // send & recieve arbitary json object using serde_json
+    let new_todo1: serde_json::Value = reqwest::Client::new()
+        .post("https://jsonplaceholder.typicode.com/todos")
+        .json(&serde_json::json!({
+            "userId" : 1,
+            "id" : "Learning Serde Json ".to_owned(),
+            "completed": false
+        }))
+        .send()
+        .await?
+        .json()
+        .await?;
+
+    println!("{:#?}", new_todo1);
     Ok(())
 }
